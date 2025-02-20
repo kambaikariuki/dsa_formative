@@ -5,6 +5,9 @@ def read(file):
         # Read the first two lines
         rows = f.readline().strip()
         columns = f.readline().strip()
+
+        rows = int(rows.split('=')[1])
+        columns = int(columns.split('=')[1])
         
         # Instantiate a list, and save the rest of the line in the file into a list
         lines = []
@@ -16,7 +19,7 @@ def read(file):
 
     
 
-        return lines
+        return lines, rows, columns
         
     #     i = 0
     #     matrices = []
@@ -58,46 +61,49 @@ def subtract(*matrices):
     return result
 
 
-def multiplication(A, B):
+def multiplication(A, B, colsA, rowsB):
     """
     Multiplies two sparse matrices A and B
     """
-    # Validate input
-    if not A or not B:
-        return []
+    try:
+        if not A or not B:
+            return []
 
-    # Convert A and B into dictionaries for faster lookup
-    A_dict = {}
-    B_dict = {}
+        # Convert A and B into dictionaries for faster lookup
+        A_dict = {}
+        B_dict = {}
 
-    # Fill A_dict
-    for i, j, value in A:
-        if i not in A_dict:
-            A_dict[i] = {}
-        A_dict[i][j] = value
+        # Fill A_dict
+        for i, j, value in A:
+            if i not in A_dict:
+                A_dict[i] = {}
+            A_dict[i][j] = value
 
-    # Fill B_dict
-    for i, j, value in B:
-        if i not in B_dict:
-            B_dict[i] = {}
-        B_dict[i][j] = value
+        # Fill B_dict
+        for i, j, value in B:
+            if i not in B_dict:
+                B_dict[i] = {}
+            B_dict[i][j] = value
 
-    # Result dictionary
-    result = {}
+        # Result dictionary
+        result = {}
 
-    # Perform multiplication
-    for rA in A_dict:  # Iterate over rows of A
-        for cA in A_dict[rA]:  # Iterate over columns of A
-            if cA in B_dict:  # A's column must be a row in B
-                for cB in B_dict[cA]:  # Iterate over columns of B
-                    key = (rA, cB)
-                    if key not in result:
-                        result[key] = 0  # Initialize if not present
-                    result[key] += A_dict[rA][cA] * B_dict[cA][cB]
+        # Perform multiplication
+        for rA in A_dict:  # Iterate over rows of A
+            for cA in A_dict[rA]:  # Iterate over columns of A
+                if cA in B_dict:  # A's column must be a row in B
+                    for cB in B_dict[cA]:  # Iterate over columns of B
+                        key = (rA, cB)
+                        if key not in result:
+                            result[key] = 0  # Initialize if not present
+                        result[key] += A_dict[rA][cA] * B_dict[cA][cB]
 
-    # Format the results
-    result = [(i, j, v) for (i, j), v in result.items() if v != 0]
-    return result
+        # Format the results
+        result = [(i, j, v) for (i, j), v in result.items() if v != 0]
+        return result
+
+    except Exception as e:
+        print(e)
 
 def getElement(file, currRow, currCol):
     """Reads the lines in a file and gets the non zero element in the row and column"""
@@ -136,6 +142,7 @@ def setElement(file, currRow, currCol, value):
 matrix1 = read("dsa/sparse_matrix/sample_inputs/easy_sample_01_2.txt")
 matrix2 = read("dsa/sparse_matrix/sample_inputs/easy_sample_01_3.txt")
 
-add(matrix1, matrix2)
+# add(matrix1[0], matrix2[0])
 
+print(matrix1[1], matrix1[2], matrix2[1], matrix2[2])
 # print(read("dsa/sparse_matrix/sample_inputs/ easy_sample_01_2.txt"))
