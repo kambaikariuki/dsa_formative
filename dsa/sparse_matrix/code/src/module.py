@@ -66,9 +66,8 @@ def multiplication(A, B, colsA, rowsB):
     Multiplies two sparse matrices A and B
     """
     try:
-        if not A or not B:
-            return []
-
+        if colsA != rowsB:
+            raise Exception("The number of columns in A must be equal to the number of rows in B")
         # Convert A and B into dictionaries for faster lookup
         A_dict = {}
         B_dict = {}
