@@ -86,5 +86,5 @@ def setElement(file, currRow, currCol, value):
                 f.write(line + "\n")
 
 
-print(read("dsa/sparse_matrix/sample_inputs/ easy_sample_01_2.txt"))
+# print(read("dsa/sparse_matrix/sample_inputs/ easy_sample_01_2.txt"))
 # print(add((0, 23, 632), (0, 32, 5456)))
