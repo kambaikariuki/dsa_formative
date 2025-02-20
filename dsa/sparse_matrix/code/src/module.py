@@ -55,19 +55,19 @@ def subtract(*matrix):
 def multiplication(*matrix):
     pass
 
-def getElement(currRow, currCol)
+def getElement(file, currRow, currCol):
     """Reads the lines in a file and gets the non zero element in the row and column"""
     read(file)
     for line in lines:
-        if currRow, currCol:
+        if currRow and currCol:
             return line
         else:
             return 0
 
-def setElement(currRow, currCol, value)
+def setElement(file, currRow, currCol, value):
     read(file)
     for line in lines:
-        if not currRow, currCol:
+        if not currRow and currCol:
             lines.append(({currRow}, {currCol}, {value}))
         else:
             line[2] = value
