@@ -24,27 +24,28 @@ def read(file):
 
 
 
-def add(*matrix):
+def add(*matrices):
     """Addition of sparse matrices, matrices passed as args"""
     result = {}
 
-    for i, j, value in matrix:
-        result[i, j] = result.get((i,j), 0) + value
+    for matrix in matrices:
+        for i, j, value in matrix:
+            result[(i, j)] = result.get((i,j), 0) + value
 
     # Format the results
     result = [(i, j, v) for (i, j), v in result.items() if v != 0]
 
     return result
 
-def subtract(*matrix):
+def subtract(*matrices):
     """Subtraction of matrices, matrices passed as args"""
     result = {}
     # Set first matrice into the result
-    first = matrix[0]
-    result = {first[:2]:first[2]}
+    result = { (i, j): v for i, j, v in matrices[0] }
     # Subtract the rest by going through the rest 
-    for i, j, value in matrix[1:]:
-        result[i, j] = result.get((i,j), 0) - value
+    for matrix in matrices[1:]:
+        for i, j, value in matrix:
+            result[i, j] = result.get((i,j), 0) - value
 
 
     # Format the results
@@ -52,8 +53,46 @@ def subtract(*matrix):
     return result
 
 
-def multiplication(*matrix):
-    pass
+def multiplication(A, B):
+    """
+    Multiplies two sparse matrices A and B
+    """
+    # Validate input
+    if not A or not B:
+        return []
+
+    # Convert A and B into dictionaries for faster lookup
+    A_dict = {}
+    B_dict = {}
+
+    # Fill A_dict
+    for i, j, value in A:
+        if i not in A_dict:
+            A_dict[i] = {}
+        A_dict[i][j] = value
+
+    # Fill B_dict
+    for i, j, value in B:
+        if i not in B_dict:
+            B_dict[i] = {}
+        B_dict[i][j] = value
+
+    # Result dictionary
+    result = {}
+
+    # Perform multiplication
+    for rA in A_dict:  # Iterate over rows of A
+        for cA in A_dict[rA]:  # Iterate over columns of A
+            if cA in B_dict:  # A's column must be a row in B
+                for cB in B_dict[cA]:  # Iterate over columns of B
+                    key = (rA, cB)
+                    if key not in result:
+                        result[key] = 0  # Initialize if not present
+                    result[key] += A_dict[rA][cA] * B_dict[cA][cB]
+
+    # Format the results
+    result = [(i, j, v) for (i, j), v in result.items() if v != 0]
+    return result
 
 def getElement(file, currRow, currCol):
     """Reads the lines in a file and gets the non zero element in the row and column"""
@@ -87,4 +126,4 @@ def setElement(file, currRow, currCol, value):
 
 
 # print(read("dsa/sparse_matrix/sample_inputs/ easy_sample_01_2.txt"))
-# print(add((0, 23, 632), (0, 32, 5456)))
+print(multiplication([(0, 23, 632), (0, 32, 5456)], [(0, 23, 632), (0, 32, 5456)]))
