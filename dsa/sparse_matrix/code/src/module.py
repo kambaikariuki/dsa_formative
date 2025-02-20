@@ -9,9 +9,14 @@ def read(file):
         # Instantiate a list, and save the rest of the line in the file into a list
         lines = []
         for line in f:
-            lines.append().strip()
+            line = line.strip()
+            line = line.strip("()").split(",")
 
-        return lines, rows, columns
+            lines.append(tuple(map(int, line)))
+
+    
+
+        return lines
         
     #     i = 0
     #     matrices = []
@@ -126,4 +131,11 @@ def setElement(file, currRow, currCol, value):
 
 
 # print(read("dsa/sparse_matrix/sample_inputs/ easy_sample_01_2.txt"))
-print(multiplication([(0, 23, 632), (0, 32, 5456)], [(0, 23, 632), (0, 32, 5456)]))
+# print(multiplication([(0, 23, 632), (0, 32, 5456)], [(0, 23, 632), (0, 32, 5456)]))
+
+matrix1 = read("dsa/sparse_matrix/sample_inputs/easy_sample_01_2.txt")
+matrix2 = read("dsa/sparse_matrix/sample_inputs/easy_sample_01_3.txt")
+
+add(matrix1, matrix2)
+
+# print(read("dsa/sparse_matrix/sample_inputs/ easy_sample_01_2.txt"))
