@@ -57,21 +57,33 @@ def multiplication(*matrix):
 
 def getElement(file, currRow, currCol):
     """Reads the lines in a file and gets the non zero element in the row and column"""
-    read(file)
-    for line in lines:
-        if currRow and currCol:
-            return line
-        else:
-            return 0
+    with open(file, "r") as f:
+        lines = []
+        for line in f:
+            lines.append().strip()    
+        
+        for line in lines:
+            if currRow and currCol:
+                return line
+            else:
+                return 0
 
 def setElement(file, currRow, currCol, value):
-    read(file)
-    for line in lines:
-        if not currRow and currCol:
-            lines.append(({currRow}, {currCol}, {value}))
-        else:
-            line[2] = value
-    return lines
+    with open(file, "r") as f:
+        lines = []
+        for line in f:
+            lines.append().strip()
+
+
+        for line in lines:
+            if currRow and currCol in line:
+                line.append(({currRow}, {currCol}, {value}))
+            else:
+                line[2] = value
+        
+        with open(file, "w") as f:
+            for line in lines:
+                f.write(line + "\n")
 
 
 print(read("dsa/sparse_matrix/sample_inputs/ easy_sample_01_2.txt"))
