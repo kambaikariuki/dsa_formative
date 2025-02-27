@@ -13,7 +13,7 @@ This repository provides a Python-based solution to read a sparse matrix from a 
 
 ## Installation
 
-Clone the repository and install dependencies if necessary.
+Clone the repository.
 
 ```sh
 git clone https://github.com/kambaikariuki/dsa_formative.git
